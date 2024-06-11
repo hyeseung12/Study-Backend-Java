@@ -13,15 +13,27 @@ http://localhost:8080/swagger-ui/
     폴더 구조 작성 cmd 명령어 : 'tree > level.txt' 
 
 ```
-└─src
-    ├─main
-    │  ├─java
-    │  │  └─io
-    │  │      └─whatap
-    │  │          └─whatap
-    │  └─resources
-    │      ├─static
-    │      └─templates
+├─src
+│  ├─main
+│  │  ├─java
+│  │  │  └─io
+│  │  │      └─whatap
+│  │  │          └─whatap
+│  │  │              ├─domain
+│  │  │              │  ├─order
+│  │  │              │  │  ├─dto
+│  │  │              │  │  ├─exception
+│  │  │              │  │  ├─repository
+│  │  │              │  │  └─service
+│  │  │              │  └─product
+│  │  │              │      ├─dto
+│  │  │              │      ├─exception
+│  │  │              │      ├─repository
+│  │  │              │      └─service
+│  │  │              └─global
+│  │  │                  ├─config
+│  │  │                  └─exception
+│  │  │                      └─error
 ```
 
 ## 런타임 구동
@@ -45,4 +57,33 @@ Environment variables는 다음과 같습니다.
 
 ## 프로젝트 코드 설명
 
+1. **Entity**
+   1. Entity와 DTO는 분리하는 [이유](https://hstory0208.tistory.com/entry/SpirngJPA-Dto%EC%99%80-Entity%EB%A5%BC-%EB%B6%84%EB%A6%AC%ED%95%B4%EC%84%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0)
+      1. 사용자가 필요한 데이터만 DTO에 전달하기
+      2. JSON 직렬화 이슈 해결
+      3. 민감한 정보는 노출되지 않는 보안성 강화
+      
+      -> Entity와 DTO 간 변환 메서드 구현하기 (toEntity() <-> toDto())<br><br>
+      
+   2. Entity로 선언된 클래스는 모든 필드를 컬럼으로 취급
+      
+      -> @Column(name=)은 클래스의 필드명과 데이터베이스의 필드명이 다를 경우에 사용하기<br><br>
+      
+   3. 생성자와 getter, setter 어노테이션 -> Lombok 이용하기
+      1. 생성자
+         - 파라미터가 없는 생성자 : @NoArgsConstructor<br>
+           단, 접근 제어자는 PROTECTED로 하는 [이유](https://erjuer.tistory.com/106)<br>
+           -> (즉시 로딩 제외) 자연 로딩(LAZY) 인 경우 실제 엔티티가 아닌 프록시 객체를 통해서 조회
+           - private인 경우 : 프록시 객체 생성에 접근 불가능
+           - public인 경우 : 무분별한 객체 생성 초래 + setter로 통한 값 주입 -> 값 변경 추적 어려움<br><br>
+         - 모든 파라미터가 있는 생성자
+           1. @AllArgsConstructor [문제점](https://velog.io/@joona95/RequiredArgsConstructor-AllArgsConstructor-%EC%82%AC%EC%9A%A9%EC%9D%80-%EC%A7%80%EC%96%91%ED%95%98%EC%9E%90)
+           2. Builder 패턴 [은 무엇이고 사용하는 이유](https://velog.io/@rara_kim/Spring-Builder-%ED%8C%A8%ED%84%B4%EC%9D%80-%EC%99%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EA%B2%83%EC%9D%BC%EA%B9%8C)
+           
+           -> '첫번째 < 두번째'<br><br>
 
+   4. PK 매핑 전략 [자세한 내용](https://fourjae.tistory.com/entry/Spring-boot-JPA-%EA%B8%B0%EB%B3%B8-%ED%82%A4-%EC%83%9D%EC%84%B1-%EC%A0%84%EB%9E%B5AUTO-IDENTITY-SEQUENCE-TABLE-UUID)
+      1. AUTO : 데이터베이스에 맞는 자동 키 생성. (ex. MySQL : AUTO_INCREMENT)
+      2. IDENTIFIED : insert 시 자동으로 id 키 값 증가
+      3. SEQUENCE : 시퀀스를 이용하여 기본 키 생성
+      4. UUID : UUID를 이용하여 기본 키 생성<br><br>
