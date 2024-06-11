@@ -2,6 +2,7 @@ package io.whatap.whatap.domain.product;
 
 import io.whatap.whatap.domain.product.dto.AddProductRequest;
 import io.whatap.whatap.domain.product.dto.ProductResponse;
+import io.whatap.whatap.domain.product.dto.UpdateProductRequest;
 import io.whatap.whatap.domain.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -35,7 +36,16 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable Long id) {
         ProductResponse product = productService.findById(id);
+        return ResponseEntity.ok()
+                .body(product);
+    }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponse> updateProduct(
+            @PathVariable Long id,
+            @RequestBody @Valid UpdateProductRequest request
+    ) {
+        ProductResponse product = productService.update(id, request);
         return ResponseEntity.ok()
                 .body(product);
     }
