@@ -8,6 +8,7 @@ import io.whatap.whatap.domain.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,10 +24,9 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductResponse> findAllById(Long id, int page, int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
-        Page<ProductResponse> products = productRepository.findAllById(id, pageRequest)
-                .map(product -> new ProductResponse(product));
+    public Page<ProductResponse> findAll(Pageable pageable) {
+        Page<ProductResponse> products = productRepository.findAll(pageable)
+                .map(ProductResponse::new);
         return products;
     }
 
