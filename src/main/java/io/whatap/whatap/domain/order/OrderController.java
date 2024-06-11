@@ -31,4 +31,11 @@ public class OrderController {
         return ResponseEntity.ok()
                 .body(orderList);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponse> getOrder(@PathVariable Long id) {
+        OrderResponse order = orderService.findById(id);
+        return ResponseEntity.ok()
+                .body(order);
+    }
 }
