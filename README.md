@@ -29,7 +29,7 @@ http://localhost:8080/swagger-ui/
 아래 링크에 들어가 내용을 참고하고 프로젝트를 실행시킬 수 있습니다.
 [자세한 내용 참고](https://foregoing-session-2ae.notion.site/a57d70130bd34b31ae953094673bec1a?pvs=4)
 
-Environment Values는 다음과 같습니다.
+Environment variables는 다음과 같습니다.
 
     DB_HOST=;DB_NAME=;DB_PASSWORD=;DB_PORT=;DB_USERNAME=;DDL_AUTO=;REDIS_HOST=;REDIS_PORT=;
 
