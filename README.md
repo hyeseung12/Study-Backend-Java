@@ -8,6 +8,10 @@ API 명세서는 Swagger로 작성되어 있습니다.<br>
 프로젝트 실행 후, 아래의 링크에 접속해서 API를 테스트할 수 있습니다.<br>
 http://localhost:8080/swagger-ui/
 
+## 프로젝트 사용 기술
+Spring Boot 2.7.15 (Maven) + Java17, MySQL 8.x, JPA 
+
+
 ## 프로젝트 폴더 구조
 
     폴더 구조 작성 cmd 명령어 : 'tree > level.txt' 
