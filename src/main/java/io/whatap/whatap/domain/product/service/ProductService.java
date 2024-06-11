@@ -3,6 +3,7 @@ package io.whatap.whatap.domain.product.service;
 import io.whatap.whatap.domain.product.Product;
 import io.whatap.whatap.domain.product.dto.AddProductRequest;
 import io.whatap.whatap.domain.product.dto.ProductResponse;
+import io.whatap.whatap.domain.product.dto.UpdateProductRequest;
 import io.whatap.whatap.domain.product.exception.ProductNotFoundException;
 import io.whatap.whatap.domain.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +38,22 @@ public class ProductService {
     }
 
     @Transactional
+    public ProductResponse update(Long id, UpdateProductRequest request) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> ProductNotFoundException.EXCEPTION);
+
+        product.update(
+                request.getName(),
+                request.getDescription(),
+                request.getPrice()
+        );
+
+        return new ProductResponse(product);
+    }
+
+    @Transactional
     public void delete(Long id) {
-        if(!productRepository.existsById(id)) throw ProductNotFoundException.EXCEPTION;
+        if (!productRepository.existsById(id)) throw ProductNotFoundException.EXCEPTION;
         productRepository.deleteById(id);
     }
 }
