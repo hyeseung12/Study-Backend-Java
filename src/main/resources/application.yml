@@ -1,20 +1,20 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/whatap?serverTimezone=UTC
-    username: root
-    password: 1234
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     initialization-mode: always
   sql:
     init:
       mode: always
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: ${DDL_AUTO}
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+        database-platform: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
     defer-datasource-initialization: true
   mvc:
