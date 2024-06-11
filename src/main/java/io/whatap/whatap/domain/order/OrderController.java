@@ -2,8 +2,10 @@ package io.whatap.whatap.domain.order;
 
 import io.whatap.whatap.domain.order.dto.AddOrderRequest;
 import io.whatap.whatap.domain.order.dto.OrderResponse;
+import io.whatap.whatap.domain.order.dto.UpdateOrderRequest;
 import io.whatap.whatap.domain.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +36,16 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponse> getOrder(@PathVariable Long id) {
         OrderResponse order = orderService.findById(id);
+        return ResponseEntity.ok()
+                .body(order);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<OrderResponse> changeOrder(
+            @PathVariable Long id,
+            @RequestBody @Valid UpdateOrderRequest request
+    ) {
+        OrderResponse order = orderService.update(id, request);
         return ResponseEntity.ok()
                 .body(order);
     }
