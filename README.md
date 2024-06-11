@@ -53,6 +53,7 @@ Environment variables는 다음과 같습니다.
 | docs | 문서 변경 사항 추가 시 |
 | fix | 수정 사항 추가 시 |
 | refactor | 코드 품질 개선 시 |
+| move | 파일 또는 폴더 이동 시 |
 | test | 테스트 관련 사항|
 
 ## 프로젝트 코드 설명
@@ -103,3 +104,20 @@ Environment variables는 다음과 같습니다.
       2. 하지만, JpaRepository를 상속받을 경우 의존성 주입 가능한 [이유](https://sudo-minz.tistory.com/147)
       3. @NoRepositoryBean : 실제 구현체는 SimpleJpaRepository = @Repository
          ![img](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbFSyXf%2FbtrNvMuDKpz%2Fn6vjtmXTmhJwJk9h51ihv1%2Fimg.png)<br><br>
+      
+3. **Exception**
+   1. 종류
+      1. ErrorCode : Enum 클래스로 상수 HTTP 상태 코드와 메시지를 가질 수 있음<br>
+         ex. BAD_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.")
+      2. ErrorResponse : HTTP 상태 코드와 메시지 반환할 수 있는 response 클래스
+      3. BusinessException : 상속받아 구체화 된 하위 exception 클래스를 가지고 있음. (parent)
+      4. 하위Exception : BusinessException을 상속받아 각자 다른 (상태 코드와 메시지 = ErrorCode enum) 을 가지고 있음. (child)
+      5. GlobalExceptionHandler : 전역 exception을 핸들링 할 수 있는 클래스
+         - BusinessException : 구체화 된 하위 exception 클래스까지 핸들링할 수 있음.
+         - MethodArgumentNotValidException : 유효성 검사 exception 클래스 핸들링<br><br>
+   2. [예외 생성 비용](https://meetup.nhncloud.com/posts/47)
+      - 예외 발생 경로 trace : 예외 만들며 1~5ms 소비
+      - 서비스의 복잡도에 따라 stack depth 깊어짐
+      
+      -> fillInStackTrace() 오버라이딩하여 trace 비활성화하기
+   
