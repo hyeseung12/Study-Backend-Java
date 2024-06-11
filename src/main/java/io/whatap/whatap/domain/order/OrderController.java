@@ -4,7 +4,6 @@ import io.whatap.whatap.domain.order.dto.AddOrderRequest;
 import io.whatap.whatap.domain.order.dto.OrderResponse;
 import io.whatap.whatap.domain.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
