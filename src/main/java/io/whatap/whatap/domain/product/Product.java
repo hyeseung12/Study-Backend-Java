@@ -1,14 +1,14 @@
 package io.whatap.whatap.domain.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.whatap.whatap.domain.order.Order;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,6 +23,11 @@ public class Product {
     private String description;
 
     private Integer price;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orderList;
+
 
     @Builder
     public Product(String name, String description, Integer price) {
