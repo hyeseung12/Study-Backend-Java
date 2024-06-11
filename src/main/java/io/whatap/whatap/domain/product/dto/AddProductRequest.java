@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +18,7 @@ public class AddProductRequest {
 
     private String description;
 
+    @Size(min = 0, message = "가격은 0 이상으로 작성해주시길 바랍니다.")
     @NotNull(message = "상품 가격이 비어있습니다.")
     private Integer price;
 
