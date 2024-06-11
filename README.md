@@ -87,3 +87,19 @@ Environment variables는 다음과 같습니다.
       2. IDENTIFIED : insert 시 자동으로 id 키 값 증가
       3. SEQUENCE : 시퀀스를 이용하여 기본 키 생성
       4. UUID : UUID를 이용하여 기본 키 생성<br><br>
+
+   5. BaseTimeEntity : 등록 날짜, 수정 날짜
+      1. @MappedSuperclass : 상속할 경우, 해당 클래스의 필드도 컬럼으로 취급
+      2. @EntityListeners(AuditingEntityListener.class) : 엔티티 생성 또는 수정 시간 등을 파악해서 자동 저장
+         1. @CreatedDate : 엔티티가 생성되는 시간 자동 저장
+         2. @LastModifiedDate : 엔티티가 수정될 때마다 시간 자동 저장<br><br>
+         
+2. **Repository**
+   1. @Repository 생략
+      
+    - @Service, @RestController 등 각 계층마다 어노테이션이 있는 것을 확인할 수 있음.
+    - @Repository는 생략 가능한 이유
+      1. 기본적으로 @Repository를 생략하면 빈으로 등록되지 않음
+      2. 하지만, JpaRepository를 상속받을 경우 의존성 주입 가능한 [이유](https://sudo-minz.tistory.com/147)
+      3. @NoRepositoryBean : 실제 구현체는 SimpleJpaRepository = @Repository
+         ![img](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbFSyXf%2FbtrNvMuDKpz%2Fn6vjtmXTmhJwJk9h51ihv1%2Fimg.png)<br><br>
