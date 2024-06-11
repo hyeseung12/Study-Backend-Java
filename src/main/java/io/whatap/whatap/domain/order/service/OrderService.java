@@ -6,6 +6,8 @@ import io.whatap.whatap.domain.order.dto.OrderResponse;
 import io.whatap.whatap.domain.order.dto.UpdateOrderRequest;
 import io.whatap.whatap.domain.order.exception.OrderNotFoundException;
 import io.whatap.whatap.domain.order.repository.OrderRepository;
+import io.whatap.whatap.domain.product.exception.ProductNotFoundException;
+import io.whatap.whatap.domain.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,9 +19,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
     @Transactional
     public OrderResponse save(AddOrderRequest request) {
+        if(!productRepository.existsById(request.getProduct().getId())) throw ProductNotFoundException.EXCEPTION;
         return new OrderResponse(orderRepository.save(request.toEntity()));
     }
 
