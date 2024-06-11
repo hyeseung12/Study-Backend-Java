@@ -13,13 +13,14 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Getter
 public class AddProductRequest {
-    @NotEmpty(message = "상품 이름이 비어있습니다.")
+    @NotEmpty(message = "상품 이름(name)을 작성해주세요.")
     private String name;
 
+    @NotNull(message = "상품 설명(description)이 null입니다.")
     private String description;
 
-    @Size(min = 0, message = "가격은 0 이상으로 작성해주시길 바랍니다.")
-    @NotNull(message = "상품 가격이 비어있습니다.")
+    @Size(min = 0, message = "가격(price)은 0 이상으로 작성해주시길 바랍니다.")
+    @NotNull(message = "상품 가격(price)이 비어있습니다.")
     private Integer price;
 
     public Product toEntity() {
