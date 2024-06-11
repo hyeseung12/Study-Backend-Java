@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString
 public class ErrorResponse {
     private String message;
     private HttpStatus status;
