@@ -7,10 +7,11 @@
 API 명세서는 Swagger로 작성되어 있습니다.<br>
 프로젝트 실행 후, 아래의 링크에 접속해서 API를 테스트할 수 있습니다.<br>
 http://localhost:8080/swagger-ui/
+<br>
 
 ## 프로젝트 사용 기술
 Spring Boot 2.7.15 (Maven) + Java17, MySQL 8.x, JPA 
-
+<br>
 
 ## 프로젝트 폴더 구조
 
@@ -39,6 +40,7 @@ Spring Boot 2.7.15 (Maven) + Java17, MySQL 8.x, JPA
 │  │  │                  └─exception
 │  │  │                      └─error
 ```
+<br>
 
 ## 런타임 구동
 
@@ -48,6 +50,7 @@ Spring Boot 2.7.15 (Maven) + Java17, MySQL 8.x, JPA
 Environment variables는 다음과 같습니다.
 
     DB_HOST=;DB_NAME=;DB_PASSWORD=;DB_PORT=;DB_USERNAME=;DDL_AUTO=;REDIS_HOST=;REDIS_PORT=;
+<br>
 
 ## Commit Convention
 | value | meaning |
@@ -59,6 +62,7 @@ Environment variables는 다음과 같습니다.
 | refactor | 코드 품질 개선 시 |
 | move | 파일 또는 폴더 이동 시 |
 | test | 테스트 관련 사항|
+<br>
 
 ## 프로젝트 코드 설명
 
