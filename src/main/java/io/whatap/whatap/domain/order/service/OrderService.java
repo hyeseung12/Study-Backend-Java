@@ -3,6 +3,7 @@ package io.whatap.whatap.domain.order.service;
 import io.whatap.whatap.domain.order.Order;
 import io.whatap.whatap.domain.order.dto.AddOrderRequest;
 import io.whatap.whatap.domain.order.dto.OrderResponse;
+import io.whatap.whatap.domain.order.exception.OrderNotFoundException;
 import io.whatap.whatap.domain.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,8 +33,8 @@ public class OrderService {
     @Transactional(readOnly = true)
     public OrderResponse findById(Long id) {
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> throw OrderNotFoundException.EXCEPTION);
+                .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
 
-        returne new OrderResponse(order);
+        return new OrderResponse(order);
     }
 }
