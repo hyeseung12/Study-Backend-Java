@@ -11,24 +11,25 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
     private String address;
 
     private Integer quantity;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
     @Builder
-    public Order(Product product, String address, Integer quantity) {
-        this.product = product;
+    public Order(String address, Integer quantity, Product product) {
         this.address = address;
         this.quantity = quantity;
+        this.product = product;
     }
 
     public void update(Integer quantity) {
