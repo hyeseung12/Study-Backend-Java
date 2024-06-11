@@ -6,6 +6,9 @@ import io.whatap.whatap.domain.product.dto.ProductResponse;
 import io.whatap.whatap.domain.product.exception.ProductNotFoundException;
 import io.whatap.whatap.domain.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +20,14 @@ public class ProductService {
     @Transactional
     public ProductResponse save(AddProductRequest request) {
         return new ProductResponse(productRepository.save(request.toEntity()));
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ProductResponse> findAllById(Long id, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
+        Page<ProductResponse> products = productRepository.findAllById(id, pageRequest)
+                .map(product -> new ProductResponse(product));
+        return products;
     }
 
     @Transactional(readOnly = true)
