@@ -20,7 +20,7 @@ public class AddProductRequest {
     @NotNull(message = "상품 설명(description)이 null입니다.")
     private String description;
 
-    @NotNull(message = "상품 가격(price)이 비어있습니다.")
+    @NotNull(message = "상품 가격(price)이 null입니다.")
     @Min(value = 0, message = "가격(price)은 0 이상으로 작성해주시길 바랍니다.")
     private Integer price;
 
