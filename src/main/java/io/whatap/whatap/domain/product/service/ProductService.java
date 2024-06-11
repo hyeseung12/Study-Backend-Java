@@ -26,4 +26,10 @@ public class ProductService {
 
         return new ProductResponse(product);
     }
+
+    @Transactional
+    public void delete(Long id) {
+        if(!productRepository.existsById(id)) throw ProductNotFoundException.EXCEPTION;
+        productRepository.deleteById(id);
+    }
 }
