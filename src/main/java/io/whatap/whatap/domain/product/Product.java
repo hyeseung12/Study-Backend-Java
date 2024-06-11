@@ -2,7 +2,7 @@ package io.whatap.whatap.domain.product;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.whatap.whatap.domain.order.Order;
-import io.whatap.whatap.global.BaseTimeEntity;
+import io.whatap.whatap.global.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

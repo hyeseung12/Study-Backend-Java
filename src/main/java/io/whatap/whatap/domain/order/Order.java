@@ -1,7 +1,7 @@
 package io.whatap.whatap.domain.order;
 
 import io.whatap.whatap.domain.product.Product;
-import io.whatap.whatap.global.BaseTimeEntity;
+import io.whatap.whatap.global.common.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package io.whatap.whatap.global;
+package io.whatap.whatap.global.common;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
