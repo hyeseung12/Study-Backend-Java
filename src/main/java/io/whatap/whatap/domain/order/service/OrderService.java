@@ -1,5 +1,6 @@
 package io.whatap.whatap.domain.order.service;
 
+import io.whatap.whatap.domain.order.Order;
 import io.whatap.whatap.domain.order.dto.AddOrderRequest;
 import io.whatap.whatap.domain.order.dto.OrderResponse;
 import io.whatap.whatap.domain.order.repository.OrderRepository;
@@ -26,5 +27,13 @@ public class OrderService {
                 .stream()
                 .map(OrderResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public OrderResponse findById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> throw OrderNotFoundException.EXCEPTION);
+
+        returne new OrderResponse(order);
     }
 }
