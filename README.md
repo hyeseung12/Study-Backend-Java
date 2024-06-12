@@ -111,7 +111,11 @@ Environment variables는 다음과 같습니다.
           - 하지만 spring boot에서는 classpath에 jar파일이 존재할 경우 자동으로 configuration을 해준다.
           - 그렇다면 @ComponentScan과 @EnableAutoConfiguration 중 누가 먼저 실행되어 빈을 등록할까?
               - 1단계 : @ComponentScan
-              - 2단계 : @EnableAutoConfiguration
+              - 2단계 : @EnableAutoConfiguration<br><br>
+            
+3. @Autowired 동작 과정
+   - 의존관계주입(DI), 객체 타입에 해당하는 빈을 찾아 주입하는 역할
+   - 
 <br>
 
 ## 프로젝트 코드 설명
