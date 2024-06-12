@@ -69,7 +69,7 @@ Environment variables는 다음과 같습니다.
 1. @SpringBootApplication이 수행하는 역할
 2. ComponentScan이란?
    
-   @SpringBootApplication 구조
+   @SpringBootApplication 어노테이션의 구조
    ```
    @Target({ElementType.TYPE})
    @Retention(RetentionPolicy.RUNTIME)
@@ -83,17 +83,36 @@ Environment variables는 다음과 같습니다.
       ...
    }
    ```
-   - 단순 설정
-     - Target({ElementType.TYPE}) : 해당 어노테이션은 TYPE = 클래스, 인터페이스... 에서 사용된다.
-     - Retention(RetentionPolicy.RUNTIME) : 지속 시간을 RUNTIME = 가장 긴 시간 설정한다. 실행 시 사용한다.
-     - Documented : javadoc에서 작성한 문서에 포함
-     - Inherited : 자동 상속. 자식 클래스는 부모의 어노테이션을 같이 사용 가능.<br><br>
-   - 실질적 구성
-     - @SpringBootConfiguration : @Configuration + @Indexed
-       - Spring에서는 객체를 개발자가 직접 관리 안하고 Spring container (또는 IoC Container) 가 관리함. -> 관리되는 객체를 Bean이라고 함<br>
-         -> 빈으로 등록하고 사용하기 위해 @Configuration + @Bean을 사용함 
-       - 
-       - 
+   - 커스텀 단순 설정
+     - @Target({ElementType.TYPE}) : TYPE = 클래스, 인터페이스 등에서 사용되는 어노테이션이라는 것을 정의
+     - @Retention(RetentionPolicy.RUNTIME) : 지속 시간 RUNTIME = 가장 긴 시간. 실행 시 사용.
+     - @Documented : javadoc에서 작성한 문서에 포함시키겠다.
+     - @Inherited : 자동 상속. 자식 클래스는 부모의 어노테이션을 사용할 수 있다.<br><br>
+        
+   - 중요 역할 3가지 어노테이션
+     1. @SpringBootConfiguration
+        ```
+        계층 구조
+        @SpringBootApplication
+        -------> @SpringBootConfiguration
+             -------> @Configuration
+        ```
+           
+         - 스프링에서는 spring(=IoC) container 로 객체를 관리하는데, 이때 관리되는 객체를 Bean이라고 한다.
+         - @Configuration은 @Bean으로 정의된 메소드를 빈으로 등록하고 사용하는데 도움을 주는 어노테이션이다. → 설정 파일임을 말해줌
+         - ? : @Bean으로만 등록할 수 없을까? -> 가능은 하지만 싱글톤 보장이 없다.<br><br>
+        
+     2. @ComponentScan
+        - @Component가 붙은 (찾는 범위 지정 가능) 해당 범위의 클래스들을 찾아 스캔해서 자동으로 스프링 빈으로 등록해주는 어노테이션 <br><br>
+           
+     3. @EnableAutoConfiguration
+        - auto-configuration 가능
+          - 기존 spring에서는 직접 XML 작성으로 configuration을 해야 했다.
+          - 하지만 spring boot에서는 classpath에 jar파일이 존재할 경우 자동으로 configuration을 해준다.
+          - 그렇다면 @ComponentScan과 @EnableAutoConfiguration 중 누가 먼저 실행되어 빈을 등록할까?
+              - 1단계 : @ComponentScan
+              - 2단계 : @EnableAutoConfiguration
+<br>
 
 ## 프로젝트 코드 설명
 
