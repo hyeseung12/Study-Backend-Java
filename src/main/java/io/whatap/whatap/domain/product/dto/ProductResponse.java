@@ -1,5 +1,6 @@
 package io.whatap.whatap.domain.product.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.whatap.whatap.domain.product.Product;
 import lombok.Getter;
 
@@ -11,6 +12,7 @@ public class ProductResponse {
     private final String name;
     private final String description;
     private final Integer price;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime createdDate;
     private final LocalDateTime modifiedDate;
 
