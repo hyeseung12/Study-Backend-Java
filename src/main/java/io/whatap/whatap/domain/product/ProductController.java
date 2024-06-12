@@ -40,6 +40,13 @@ public class ProductController {
                 .body(product);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> getProductCount() {
+        Long count = productService.countAll();
+        return ResponseEntity.ok()
+                .body(count);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponse> updateProduct(
             @PathVariable Long id,

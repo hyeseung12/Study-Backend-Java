@@ -37,6 +37,11 @@ public class ProductService {
         return new ProductResponse(product);
     }
 
+    @Transactional(readOnly = true)
+    public Long countAll() {
+        return productRepository.count();
+    }
+
     @Transactional
     public ProductResponse update(Long id, UpdateProductRequest request) {
         Product product = productRepository.findById(id)
