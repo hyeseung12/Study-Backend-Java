@@ -64,6 +64,37 @@ Environment variables는 다음과 같습니다.
 | test | 테스트 관련 사항|
 <br>
 
+## 개념 설명
+
+1. @SpringBootApplication이 수행하는 역할
+2. ComponentScan이란?
+   
+   @SpringBootApplication 구조
+   ```
+   @Target({ElementType.TYPE})
+   @Retention(RetentionPolicy.RUNTIME)
+   @Documented
+   @Inherited
+   @SpringBootConfiguration
+   @EnableAutoConfiguration
+   @ComponentScan(excludeFilters = {@Filter(type = FilterType.CUSTOM, classes = {TypeExcludeFilter.class}),
+   @Filter(type = FilterType.CUSTOM, classes = {AutoConfigurationExcludeFilter.class})})
+   public @interface SpringBootApplication {
+      ...
+   }
+   ```
+   - 단순 설정
+     - Target({ElementType.TYPE}) : 해당 어노테이션은 TYPE = 클래스, 인터페이스... 에서 사용된다.
+     - Retention(RetentionPolicy.RUNTIME) : 지속 시간을 RUNTIME = 가장 긴 시간 설정한다. 실행 시 사용한다.
+     - Documented : javadoc에서 작성한 문서에 포함
+     - Inherited : 자동 상속. 자식 클래스는 부모의 어노테이션을 같이 사용 가능.<br><br>
+   - 실질적 구성
+     - @SpringBootConfiguration : @Configuration + @Indexed
+       - Spring에서는 객체를 개발자가 직접 관리 안하고 Spring container (또는 IoC Container) 가 관리함. -> 관리되는 객체를 Bean이라고 함<br>
+         -> 빈으로 등록하고 사용하기 위해 @Configuration + @Bean을 사용함 
+       - 
+       - 
+
 ## 프로젝트 코드 설명
 
 1. **Entity**
