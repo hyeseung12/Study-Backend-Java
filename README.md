@@ -192,76 +192,76 @@ Environment variables는 다음과 같습니다.
 6. @OneToMany, @ManyToOne : entity의 연관관계 지정해주는 어노테이션
    - 엔티티들은 다양한 연관관계 지정 가능<br><br>
 
-    1. 방향
-       - 단방향 : 한 쪽의 엔티티만 참조하고 있음. (-> 나 <-)
-       - 양방향 : 양 쪽이 서로 참조하고 있음. (<->) <br><br>
+   1. 방향
+   - 단방향 : 한 쪽의 엔티티만 참조하고 있음. (-> 나 <-)
+   - 양방향 : 양 쪽이 서로 참조하고 있음. (<->) <br><br>
 
-    2. 연관관계의 종류 및 어노테이션
+   2. 연관관계의 종류 및 어노테이션
 
-        | 연관관계  | 어노테이션 |
-        |-------| ---- |
-        | 1 : 1 | @OneToOne |
-        | 1 : N | @OneToMany |
-        | N : 1 | @ManyToOne |
-        | N : M | @ManyToMany |
-    <br>
+       | 연관관계  | 어노테이션 |
+       |-------| ---- |
+       | 1 : 1 | @OneToOne |
+       | 1 : N | @OneToMany |
+       | N : 1 | @ManyToOne |
+       | N : M | @ManyToMany |
+<br>
 
-    3. 코드 작성 및 설명
-      - 예를 들어 한 사람이 여러 게시물을 만들 수 있다.<br>
-        -> 한 사람 기준 one(1) - 여러 게시물 기준 many(n)
+   3. 코드 작성 및 설명
+  - 예를 들어 한 사람이 여러 게시물을 만들 수 있다.<br>
+    -> 한 사람 기준 one(1) - 여러 게시물 기준 many(n)
+
+    ```java
+    @Entity
+    public class Post {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)    
+        private Long id;
     
-        ```java
-        @Entity
-        public class Post {
-            @Id
-            @GeneratedValue(strategy = GenerationType.IDENTITY)    
-            private Long id;
-        
-            @ManyToOne // post - many, user - one
-            @JoinColumn(name = "user_id")    
-            private User user;
-        }
-        
-        @Entity
-        public class User {
-            @Id
-            @GeneratedValue(strategy = GenerationType.IDENTITY)
-            private Long id;
-        
-            @OneToMany(mappedBy = "user") // user - one, post - many
-            private List<Post> posts = new ArrayList<>();
-        }
-        ```
+        @ManyToOne // post - many, user - one
+        @JoinColumn(name = "user_id")    
+        private User user;
+    }
+    
+    @Entity
+    public class User {
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+    
+        @OneToMany(mappedBy = "user") // user - one, post - many
+        private List<Post> posts = new ArrayList<>();
+    }
+    ```
 
-        - 의문점 : 연관관계 작성할 때 @ManyToOne, @OneToMany만 있으면 될 것 같습니다. -> @JoinColumn과 mappedBy는 왜 작성하셨나요?
-        - 게시글은 누가 작성했는지 User의 값을 알 수 있고, 반대로 User는 List<Post>로 어떤 게시물들을 작성했는지 알 수 있습니다.
-        - 그런데 가정을 해보도록 하겠습니다. 만약 유저가 게시물 하나를 작성했습니다.
-        - 게시물 작성하여 이제 데이터베이스에 이 내용을 저장해야합니다.
-        - 그렇다면 Post 클래스 - User를 넣어야할까요? / User 클래스 - List에 넣어야할까요?
-        - JPA 입장에서는 혼란이 올 수 밖에 없습니다. 따라서 누굴 우선으로 할지 주인을 결정 해야 합니다.
-           - @ManyToOne = 1개의 외래키만 가지고 있음 > @OneToMany = List 여러개의 값을 가지고 있음.<br>
-           -> 즉, 관리면에서 한개의 외래키만 가지고 있는 것이 효율적임.
-           - 주인이라면 : @JoinColumn / 주인이 아니라면 : mappedBy 를 작성합니다.<br><br>
-           - @JoinColumn : 외래 키를 매핑할 때 사용 (name = : 외래키 컬럼명 지정)<br>
-             - name = : 단순히 컬럼명만 지정
-             - referencedColumnName = : 대상 테이블의 어떤 컬럼을 참조할 것인지 지정 
-           - mappedBy : 연관관계의 주인을 지정 (단, 연관관계 주인의 해당 속성 필드명과 일치)
-    <br><br>
-          
-    4. 그 밖의 편의 옵션
+    - 의문점 : 연관관계 작성할 때 @ManyToOne, @OneToMany만 있으면 될 것 같습니다. -> @JoinColumn과 mappedBy는 왜 작성하셨나요?
+    - 게시글은 누가 작성했는지 User의 값을 알 수 있고, 반대로 User는 List<Post>로 어떤 게시물들을 작성했는지 알 수 있습니다.
+    - 그런데 가정을 해보도록 하겠습니다. 만약 유저가 게시물 하나를 작성했습니다.
+    - 게시물 작성하여 이제 데이터베이스에 이 내용을 저장해야합니다.
+    - 그렇다면 Post 클래스 - User를 넣어야할까요? / User 클래스 - List에 넣어야할까요?
+    - JPA 입장에서는 혼란이 올 수 밖에 없습니다. 따라서 누굴 우선으로 할지 주인을 결정 해야 합니다.
+       - @ManyToOne = 1개의 외래키만 가지고 있음 > @OneToMany = List 여러개의 값을 가지고 있음.<br>
+       -> 즉, 관리면에서 한개의 외래키만 가지고 있는 것이 효율적임.
+       - 주인이라면 : @JoinColumn / 주인이 아니라면 : mappedBy 를 작성합니다.<br><br>
+       - @JoinColumn : 외래 키를 매핑할 때 사용 (name = : 외래키 컬럼명 지정)<br>
+         - name = : 단순히 컬럼명만 지정
+         - referencedColumnName = : 대상 테이블의 어떤 컬럼을 참조할 것인지 지정 
+       - mappedBy : 연관관계의 주인을 지정 (단, 연관관계 주인의 해당 속성 필드명과 일치)
+<br><br>
+      
+    1. 그 밖의 편의 옵션
        1. 프록시 옵션 : fetch
           - DB 조회 시, 연관관계의 엔티티 정보를 언제 요청할 것인지
           - LAZY : 데이터가 필요한 시점에 정보를 요청함. (즉, 쿼리를 2번 보냄)
           - EAGER : 조인으로 바로 모든 정보를 요청함. (즉, 쿼리는 1번 + @OneToOne, @ManyToOne 어노테이션 기본 설정값)
           - 특별히 반드시 가져와야 할 정보가 아니라면 LAZY를 선택하는 것이 좋음.<br><br>
-          
+      
        2. 영속성 옵션 : cascade
           - 쉽게 말해 부모 엔티티를 다룰 때, 자식 엔티티도 함께 다루는 것
           - 6가지 옵션으로, ALL, PERSIST, MERGE, REMOVE, REFRESH, DETACH이 있음. [자세한 설명](https://data-make.tistory.com/668)
           - 단, REMOVE는 주의 필요 [자세한 설명](https://velog.io/@yuseogi0218/JPA-CascadeType.REMOVE-vs-orphanRemoval-true)
             - REMOVE : 부모 엔티티와 자식 엔티티의 연관관계를 제거할 때, 자식 엔티티가 DB에 남아있으며 외래키 값만 변경됨.<br>
             -> 해결 : orphanRemoval = true -> 자식 엔티티를 고아 객체로 취급하여 DB에서 삭제시킴.
-       
+   
 <br>
 
 ## 프로젝트 코드 설명
