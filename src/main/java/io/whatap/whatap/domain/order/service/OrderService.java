@@ -48,7 +48,10 @@ public class OrderService {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
 
-        order.update(request.getQuantity());
+        order.update(
+                request.getAddress(),
+                request.getQuantity()
+        );
 
         return new OrderResponse(order);
     }

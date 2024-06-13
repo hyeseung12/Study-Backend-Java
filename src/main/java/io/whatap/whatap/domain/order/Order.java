@@ -33,7 +33,8 @@ public class Order extends BaseTimeEntity {
         this.product = product;
     }
 
-    public void update(Integer quantity) {
+    public void update(String address, Integer quantity) {
+        this.address = address;
         this.quantity = quantity;
     }
 }
