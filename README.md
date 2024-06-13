@@ -131,8 +131,64 @@ Environment variables는 다음과 같습니다.
    - AutowiredAnnotationBeanPostProcessor - processInjection(Object bean) 메서드 : 빈의 클래스 정보 읽어오는 getClass()로 메타데이터 얻고 주입 inject()를 실행시켜 주입을 합니다.<br>
    -> inject() 출처 : AutowiredAnnotationBeanPostProcessor -> InjectMetadata 상속 받는 : AutowiredFieldElement와 AutowiredMethodElement - 오버라이딩 inject()
      - inject() -> ReflectionUtils.makeAccessible() : 정보 + invoke() : 빈 주입
-   
-5. RestTemplate
+   <br><br>
+     
+5. RestTemplate [자세한 내용](https://minkwon4.tistory.com/178)
+   - 백엔드 서버에서 다른 서버로 통신해야 하는 경우, HTTP 통신 관련 코드 작성 또는 라이브러리 써야함.
+   - 자바 언어로 작성된 HTTP 통신용 클라이언트 라이브러리 ex. OkHttp, Retrofit 등 존재
+   - 스프링에서는 기본적으로 RestTemplate HTTP 클라이언트를 제공함<br><br>
+   - **동작 원리**<br><br>
+     ![img](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FxkYlM%2FbtqUnLpj0Ce%2FHQYH4Il5d9JIZx6lQgOr40%2Fimg.png)<br><br>
+     1. 애플리케이션 내부에서 REST API에 요청하기 위해 RestTemplate의 메서드를 호출한다.
+     2. HttpMessageConverter를 이용해 RequestEntity를 요청메시지로 변환
+     3. ClientHttpRequestFactory로 ClientHttpRequest를 가져와 요청 보냄
+     4. ClientHttpRequest는 요청 메시지를 만들어 HTTP 프로토콜을 통해 외부 서버와 통신
+     5. ClientHttpResponse로 응답을 받고, ResponseErrorHandler에서 오류를 처리합니다.
+     6. HttpMessageConverter를 이용해 응답메시지를 Java Object(Reseponse Type)로 변환하고
+     7. 이를 애플리케이션에 반환합니다.<br><br>
+
+   - **RestTemplate 메소드**
+     
+     | 메소드 | HTTP | 설명                              |
+     | --- | ---- |---------------------------------|
+     | getForObject | GET | HTTP GET 요청 후 객체로 응답            |
+     | getForEntity | GET | HTTP GET 요청 후 ResponseEntity로 응답 |
+     | postForLocation | POST | HTTP POST 요청 후 헤더에 저장된 URL을 응답  |
+     | postForObject | POST | HTTP POST 요청 후 객체로 응답 |
+     | postForEntity | POST | HTTP POST 요청 후 ResponseEntity 응답 |
+     | delete | DELETE | HTTP DELETE 요청 |
+     | headForHeaders | HEADER | HTTP HEAD 요청 후 헤더 정보 응답 |
+     | put | PUT | HTTP PUT 요청 |
+     | patchForObject | PATCH | HTTP PATCH 요청 후 객체 응답 |
+     | optionsForAllow | OPTIONS | 지원하는 HTTP 메소드를 조회 |
+     | exchange | Any | 원하는 HTTP 메소드 요청 후 ResponseEntity 응답 |
+     | execute | Any | Request/Response 콜백 수정 |
+    <br>
+
+   - **Github API 접근 예제**
+     ```java
+     @GetMapping(value = "/github/{user}", produces = MediaType.APPLICATION_JSON_VALUE)
+     public String githubUser(@PathVariable("user") String user) {
+     // RestTemplate 생성
+     RestTemplate restTemplate = new RestTemplate();
+
+     // 요청 메시지 생성 및 설정
+     HttpHeaders headers = new HttpHeaders();
+     headers.setContentType(MediaType.APPLICATION_JSON);
+     
+     // 요청 메시지에 바디 데이터가 없으므로 Void 타입으로 설정
+     RequestEntity<Void> requestEntity = new RequestEntity<>(
+            null, headers, HttpMethod.GET, URI.create("https://api.github.com/users/" + user));
+
+     // 응답 메시지
+     ResponseEntity<String> response = restTemplate.exchange(requestEntity, String.class);
+     // 응답 메시지의 바디 데이터를 문자열로 해석
+     String responseBody = response.getBody();
+ 
+     return responseBody;
+     ```
+
+<br>
 6. @OneToMany, @ManyToOne : entity의 연관관계 지정해주는 어노테이션
    - 엔티티들은 다양한 연관관계 지정 가능<br><br>
 
