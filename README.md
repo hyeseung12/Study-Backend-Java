@@ -113,9 +113,25 @@ Environment variables는 다음과 같습니다.
               - 1단계 : @ComponentScan
               - 2단계 : @EnableAutoConfiguration<br><br>
             
-3. @Autowired 동작 과정
-   - 의존관계주입(DI), 객체 타입에 해당하는 빈을 찾아 주입하는 역할<br><br>
+3. @Autowired 동작 과정 [자세한 내용](https://beststar-1.tistory.com/40)
+   - 객체 타입에 해당하는 빈을 찾아 자동 주입하는 역할
+     - 빈이란? 스프링에서 spring(=IoC) container가 관리하는 객체를 말한다.
+   - 그렇다면, 무엇으로 어떻게 빈을 찾아 주입하는 걸까? <br><br>
+     - BeanPostProcessor 라는 라이프 사이클 인터페이스 구현체인 AutowiredAnnotationBeanPostProcessor에 의해 이루어진다.
 4. Spring Bean LifeCycle
+   - 빈의 라이프사이클은 크게 '객체생성 - 의존관계 설정 - 초기화 - 소멸' 순으로 나눈다.
+     ![img](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F9uDZw%2Fbtq4IN4AXI0%2FarS6N3YWgJiQkYt1CUNbu0%2Fimg.png)
+     <div style="text-align:center">빈 라이프사이클 도식화</div>
+   - 파란색으로 표시한 부분이 BeanPostProcessor 내용입니다. BeanPostProcessor에는 2가지 메서드로
+     - postProcessBeforeInitialization : 빈 초기화 단계 이전 (의존관계 설정) -> 빈을 찾을 수 있는 메서드
+     - postProcessAfterInitialization : 빈 초기화 단계 이후 (소멸)
+   - 하지만, BeanPostProcessor도 인터페이스이기 때문에 구현체가 있어야 메서드를 이용할 수 있습니다.
+   ![img](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FE15EM%2Fbtq4K8gbLeC%2FCMwbSlfAPbrkEKQrSekZ7K%2Fimg.png)
+     <div style="text-align:center">BeanPostProcessor과 AutowiredAnnotationBeanPostProcessor</div><br>
+   - AutowiredAnnotationBeanPostProcessor - processInjection(Object bean) 메서드 : 빈의 클래스 정보 읽어오는 getClass()로 메타데이터 얻고 주입 inject()를 실행시켜 주입을 합니다.<br>
+   -> inject() 출처 : AutowiredAnnotationBeanPostProcessor -> InjectMetadata 상속 받는 : AutowiredFieldElement와 AutowiredMethodElement - 오버라이딩 inject()
+     - inject() -> ReflectionUtils.makeAccessible() : 정보 + invoke() : 빈 주입
+   
 5. RestTemplate
 6. @OneToMany, @ManyToOne : entity의 연관관계 지정해주는 어노테이션
    - 엔티티들은 다양한 연관관계 지정 가능<br><br>
