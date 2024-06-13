@@ -181,5 +181,16 @@ Environment variables는 다음과 같습니다.
       - 예외 발생 경로 trace : 예외 만들며 1~5ms 소비
       - 서비스의 복잡도에 따라 stack depth 깊어짐
       
-      -> fillInStackTrace() 오버라이딩하여 trace 비활성화하기
+      -> fillInStackTrace() 오버라이딩하여 trace 비활성화하기<br><br>
    
+4. 더미 데이터
+   - data.sql, @PostConstruct, @EventListener(ApplicationReadyEvent.class)
+   - @PostConstruct vs @EventListener(ApplicationReadyEvent.class) [참고 내용](https://injae-dev.tistory.com/entry/Spring-%ED%81%B4%EB%9E%98%EC%8A%A4-%EC%B4%88%EA%B8%B0%ED%99%94-%EB%B0%A9%EB%B2%95-%EB%B9%84%EA%B5%90-PostConstruct-EventListener)
+     - @PostConstruct : 클래스가 생성된 직후 초기화 메서드가 실행
+       - 문제 : AOP가 적용된 상태에서 동작해야 하는 초기화 작업을 해야할 때.<br>
+         -> AOP는 원본 클래스 그대로가 아닌, 상속으로 Proxy 클래스르 만든 후, Proxy 클래스를 사용함.<br>
+         -> 그렇다면 Proxy 클래스의 초기화 메서드를 수행해야 만 원하는 동작이 수행되는데, @PostConstruct는 그렇지 않음.<br><br>
+     - @EventListener(ApplicationReadyEvent.class) : 특정 이벤트 발생 시점에서 초기화 메서드가 실행
+       - ApplicationReadyEvent.class : Spring이 모든 초기화가 종료된 시점에서 발생
+       -> 즉, Proxy 클래스의 생성도 모두 마친 상태.
+       - 또한, @PostConstruct와 달리 @Transactional 어노테이션을 함께 사용 가능함.
