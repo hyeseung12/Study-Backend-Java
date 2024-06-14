@@ -21,9 +21,11 @@ spring:
         database-platform: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
     defer-datasource-initialization: true
-  sql.init.mode: always
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 eureka:
   client:
-  register-with-eureka: true
-  fetch-registry: true
+    register-with-eureka: true
+    fetch-registry: true
