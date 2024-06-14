@@ -59,7 +59,7 @@ Spring Boot 2.7.15 (Maven) + Java17, MySQL 8.x, JPA
 
 Environment variables는 다음과 같습니다.
 
-    DB_HOST=;DB_NAME=;DB_PASSWORD=;DB_PORT=;DB_USERNAME=;DDL_AUTO=;REDIS_HOST=;REDIS_PORT=;
+    DB_HOST=;DB_NAME=;DB_PASSWORD=;DB_PORT=;DB_USERNAME=;DDL_AUTO=;
 <br>
 
 ## Commit Convention
