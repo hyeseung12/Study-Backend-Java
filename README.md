@@ -36,6 +36,7 @@ Spring Boot 2.7.15 (Maven) + Java17, MySQL 8.x, JPA
 │  │  │              │      ├─repository
 │  │  │              │      └─service
 │  │  │              └─global
+│  │  │                  ├─common
 │  │  │                  ├─config
 │  │  │                  └─exception
 │  │  │                      └─error
