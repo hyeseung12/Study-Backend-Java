@@ -83,6 +83,17 @@ public class OrderService {
         return new OrderResponse(order);
     }
 
+    @Transactional
+    public void delete(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
+
+        // 삭제 -> 재고량 다시 추가
+        updateStockByProductId(order.getProductId(), order.getQuantity());
+
+        orderRepository.deleteById(id);
+    }
+
     // 재고량 체크
     public boolean checkProductInventory(Long productId, Long quantity) {
         ProductResponse product = productClient.findByProductId(productId);
