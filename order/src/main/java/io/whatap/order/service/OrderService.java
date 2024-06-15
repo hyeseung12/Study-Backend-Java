@@ -1,9 +1,11 @@
 package io.whatap.order.service;
 
-import io.whatap.order.dto.AddOrderRequest;
-import io.whatap.order.dto.OrderResponse;
-import io.whatap.order.dto.ProductResponse;
+import io.whatap.order.dto.order.AddOrderRequest;
+import io.whatap.order.dto.order.OrderResponse;
+import io.whatap.order.dto.product.ProductResponse;
+import io.whatap.order.dto.product.UpdateInventoryProductRequest;
 import io.whatap.order.global.client.ProductClient;
+import io.whatap.order.global.exception.OutOfStockException;
 import io.whatap.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,12 +19,21 @@ public class OrderService {
 
     @Transactional
     public OrderResponse save(AddOrderRequest request) {
-        boolean isCheck = checkProductInventory(request.getProductId(), request.getQuantity());
+        Long productId = request.getProductId();
+        Long quantity = request.getQuantity();
+
+        boolean isCheck = checkProductInventory(productId, quantity);
 
         // 재고량이 부족한 경우
-        if(!isCheck) return null;
+        if(!isCheck) throw OutOfStockException.EXCEPTION;
 
+        // 재고량 수정
+        productClient.updateStockByProductId(
+                productId,
+                new UpdateInventoryProductRequest(-quantity) // 주문한 갯수만큼 차감
+        );
 
+        return new OrderResponse(orderRepository.save(request.toEntity()));
     }
 
     // 재고량 체크 (반환값 : productId)

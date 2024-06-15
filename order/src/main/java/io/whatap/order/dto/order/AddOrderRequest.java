@@ -1,4 +1,4 @@
-package io.whatap.order.dto;
+package io.whatap.order.dto.order;
 
 import io.whatap.order.domain.Order;
 import lombok.AllArgsConstructor;

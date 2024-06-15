@@ -1,4 +1,4 @@
-package io.whatap.order.dto;
+package io.whatap.order.dto.product;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
