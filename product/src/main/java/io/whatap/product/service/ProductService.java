@@ -5,6 +5,8 @@ import io.whatap.product.dto.AddProductRequest;
 import io.whatap.product.dto.ProductResponse;
 import io.whatap.product.dto.UpdateInventoryProductRequest;
 import io.whatap.product.dto.UpdateProductRequest;
+import io.whatap.product.global.exception.OutOfStockException;
+import io.whatap.product.global.exception.ProductNotFoundException;
 import io.whatap.product.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -79,7 +81,7 @@ public class ProductService {
         long inventory = product.getInventory() + request.getInventory();
 
         if(product.getInventory() == 0 || inventory <= 0)
-            throw new ProductNotFoundException.EXCEPTION;
+            throw OutOfStockException.EXCEPTION;
 
         product.updateInventory(inventory);
 
