@@ -354,4 +354,34 @@ Environment variables는 다음과 같습니다.
      - @EventListener(ApplicationReadyEvent.class) : 특정 이벤트 발생 시점에서 초기화 메서드가 실행
        - ApplicationReadyEvent.class : Spring이 모든 초기화가 종료된 시점에서 발생
        -> 즉, Proxy 클래스의 생성도 모두 마친 상태.
-       - 또한, @PostConstruct와 달리 @Transactional 어노테이션을 함께 사용 가능함.
+       - 또한, @PostConstruct와 달리 @Transactional 어노테이션을 함께 사용 가능함.<br><br>
+
+5. Netflix
+   1. Eureka : 다수의 서비스들의 미들웨어서버
+      - 사용 목적
+        - 로드 밸런싱 : 특정 서비스가 여러개 있을 때, 트래픽을 한 서버에 몰리지 않게 분산해주는 기술
+        - 장애 조치 목적
+      - 미들웨어란? 데이터를 주고 받는 양쪽의 서비스 중간에 위치해 매개 역할을 하는 소프트웨어
+      1. Eureka Server : Client의 IP / PORT / InstanceId 저장
+      2. Eureka Client : 각 서비스에 해당하는 모듈
+         - order, product로 구성
+         - order에 필요한 product id 구성 시, [참고 블로그](https://velog.io/@dasd412/JPA-%EA%B4%80%EA%B3%84%EB%A5%BC-MSA%EC%97%90-%EC%A0%81%EC%9A%A9%ED%95%B4%EB%B3%B4%EA%B8%B0) / [참고 블로그2](https://www.popit.kr/jpa-%EC%97%B0%EA%B4%80-%EA%B4%80%EA%B3%84-%EC%A1%B0%ED%9A%8C-%EA%B7%B8%EB%A6%AC%EA%B3%A0-msa/)
+   2. Feign Client : Http Client - Http 요청 간편함
+      - 장점
+        - Feign Client은 Http Client보다 더 간편함.
+        - 통합 테스트가 비교적 간편
+        - 사용자 의도에 맞는 커스텀이 간편함
+      - 프로젝트 적용
+        - Order에서 Product API 요청 시,
+          - GET /api/product/{id} : product의 id로 product 정보 요청
+          - PUT /api/product/stock/{id} + UpdateInventoryProductRequest : product의 id로 product inventory(재고량) 변경 요청
+        ```java
+        @FeignClient(name = "product", url = "http://localhost:8082/api/product")
+        public interface ProductClient {
+            @GetMapping("/{id}")
+            ProductResponse findByProductId(@PathVariable("id") Long id);
+
+            @PutMapping("/stock/{id}")
+            ProductResponse updateStockByProductId(@PathVariable("id") Long id, @RequestBody @Valid UpdateInventoryProductRequest request);
+        }
+        ```
