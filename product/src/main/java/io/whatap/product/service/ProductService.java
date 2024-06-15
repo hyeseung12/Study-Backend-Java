@@ -74,7 +74,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponse update(Long id, UpdateInventoryProductRequest request) {
+    public ProductResponse updateInventory(Long id, UpdateInventoryProductRequest request) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> ProductNotFoundException.EXCEPTION);
 

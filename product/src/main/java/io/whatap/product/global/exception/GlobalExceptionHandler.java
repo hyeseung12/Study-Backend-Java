@@ -1,8 +1,8 @@
 package io.whatap.product.global.exception;
 
-import io.whatap.whatap.global.exception.error.BusinessException;
-import io.whatap.whatap.global.exception.error.ErrorCode;
-import io.whatap.whatap.global.exception.error.ErrorResponse;
+import io.whatap.product.global.exception.error.BusinessException;
+import io.whatap.product.global.exception.error.ErrorCode;
+import io.whatap.product.global.exception.error.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
