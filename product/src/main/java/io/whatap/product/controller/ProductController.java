@@ -4,10 +4,12 @@ import io.whatap.product.dto.AddProductRequest;
 import io.whatap.product.dto.ProductResponse;
 import io.whatap.product.dto.UpdateInventoryProductRequest;
 import io.whatap.product.dto.UpdateProductRequest;
+import io.whatap.product.global.annotation.SwaggerAPIError;
+import io.whatap.product.global.exception.error.ErrorCode;
 import io.whatap.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +22,7 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
+    @SwaggerAPIError(ErrorCode.PRODUCT_NOT_FOUND)
     @PostMapping
     public ResponseEntity<ProductResponse> addProduct(@RequestBody @Valid AddProductRequest request) {
         ProductResponse product = productService.save(request);
