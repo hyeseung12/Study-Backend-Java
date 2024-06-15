@@ -5,6 +5,7 @@ import io.whatap.product.dto.ProductResponse;
 import io.whatap.product.dto.UpdateInventoryProductRequest;
 import io.whatap.product.dto.UpdateProductRequest;
 import io.whatap.product.global.annotation.SwaggerAPIError;
+import io.whatap.product.global.annotation.SwaggerAPIErrors;
 import io.whatap.product.global.exception.error.ErrorCode;
 import io.whatap.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,6 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    @SwaggerAPIError(ErrorCode.PRODUCT_NOT_FOUND)
     @PostMapping
     public ResponseEntity<ProductResponse> addProduct(@RequestBody @Valid AddProductRequest request) {
         ProductResponse product = productService.save(request);
@@ -37,6 +37,7 @@ public class ProductController {
                 .body(products);
     }
 
+    @SwaggerAPIError(ErrorCode.PRODUCT_NOT_FOUND)
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable Long id) {
         ProductResponse product = productService.findById(id);
@@ -51,6 +52,7 @@ public class ProductController {
                 .body(count);
     }
 
+    @SwaggerAPIError(ErrorCode.PRODUCT_NOT_FOUND)
     @PutMapping("/info/{id}")
     public ResponseEntity<ProductResponse> updateInfoProduct(
             @PathVariable Long id,
@@ -61,6 +63,7 @@ public class ProductController {
                 .body(product);
     }
 
+    @SwaggerAPIErrors({ErrorCode.PRODUCT_NOT_FOUND, ErrorCode.OUT_OF_STOCK})
     @PutMapping("/stock/{id}")
     public ResponseEntity<ProductResponse> updateStockProduct(
             @PathVariable Long id,
@@ -72,6 +75,7 @@ public class ProductController {
                 .body(product);
     }
 
+    @SwaggerAPIError(ErrorCode.PRODUCT_NOT_FOUND)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.delete(id);

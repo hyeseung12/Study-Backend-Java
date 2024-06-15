@@ -11,7 +11,7 @@ http://localhost:8761/
 
 ## Swagger API 명세서
 
-커스텀은 다음의 링크를 참고하여 만들었습니다. [링크](https://github.com/TeamDilly/Packy-Server/blob/main/packy-api/src/main/java/com/dilly/global/config/SwaggerConfig.java)
+커스텀은 다음의 링크를 참고하여 만들었습니다. [블로그 링크](https://leeeeeyeon-dev.tistory.com/92#google_vignette) / [깃허브 링크](https://github.com/TeamDilly/Packy-Server/blob/main/packy-api/src/main/java/com/dilly/global/config/SwaggerConfig.java)
 
 API 명세서는 Swagger로 작성되어 있습니다.<br>
 프로젝트 실행 후, 아래의 링크에 접속해서 API를 테스트할 수 있습니다.<br>
