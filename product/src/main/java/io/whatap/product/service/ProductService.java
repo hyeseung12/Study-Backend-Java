@@ -79,9 +79,7 @@ public class ProductService {
                 .orElseThrow(() -> ProductNotFoundException.EXCEPTION);
 
         long inventory = product.getInventory() + request.getInventory();
-
-        if(product.getInventory() == 0 || inventory <= 0)
-            throw OutOfStockException.EXCEPTION;
+        if(inventory < 0) throw OutOfStockException.EXCEPTION;
 
         product.updateInventory(inventory);
 

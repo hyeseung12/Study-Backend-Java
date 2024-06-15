@@ -1,8 +1,10 @@
 package io.whatap.order.controller;
 
+import feign.Response;
 import io.whatap.order.dto.order.AddOrderRequest;
 import io.whatap.order.dto.order.OrderResponse;
 import io.whatap.order.dto.order.UpdateAddressOrderRequest;
+import io.whatap.order.dto.order.UpdateQuantityOrderRequest;
 import io.whatap.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,6 +45,15 @@ public class OrderController {
             @RequestBody @Valid UpdateAddressOrderRequest request
     ) {
         OrderResponse order = orderService.updateAddress(id, request);
+        return ResponseEntity.ok(order);
+    }
+
+    @PutMapping("/quantity/{id}")
+    public ResponseEntity<OrderResponse> changeQuantityOrder(
+            @PathVariable("id") Long id,
+            @RequestBody @Valid UpdateQuantityOrderRequest request
+    ) {
+        OrderResponse order = orderService.updateQuantity(id, request);
         return ResponseEntity.ok(order);
     }
 }

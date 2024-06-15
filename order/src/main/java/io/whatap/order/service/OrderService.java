@@ -4,6 +4,7 @@ import io.whatap.order.domain.Order;
 import io.whatap.order.dto.order.AddOrderRequest;
 import io.whatap.order.dto.order.OrderResponse;
 import io.whatap.order.dto.order.UpdateAddressOrderRequest;
+import io.whatap.order.dto.order.UpdateQuantityOrderRequest;
 import io.whatap.order.dto.product.ProductResponse;
 import io.whatap.order.dto.product.UpdateInventoryProductRequest;
 import io.whatap.order.global.client.ProductClient;
@@ -31,13 +32,10 @@ public class OrderService {
         boolean isCheck = checkProductInventory(productId, quantity);
 
         // 재고량이 부족한 경우
-        if(!isCheck) throw OutOfStockException.EXCEPTION;
+        if (!isCheck) throw OutOfStockException.EXCEPTION;
 
         // 재고량 수정
-        productClient.updateStockByProductId(
-                productId,
-                new UpdateInventoryProductRequest(-quantity) // 주문한 갯수만큼 차감
-        );
+        updateStockByProductId(productId, -quantity); // 주문한 갯수만큼 차감
 
         return new OrderResponse(orderRepository.save(request.toEntity()));
     }
@@ -68,9 +66,34 @@ public class OrderService {
         return new OrderResponse(order);
     }
 
+    @Transactional
+    public OrderResponse updateQuantity(Long id, UpdateQuantityOrderRequest request) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
+
+        Long beforeQuantity = order.getQuantity();
+        Long afterQuantity = request.getQuantity();
+
+        // 재고량 수정
+        // 기존의 값이 더 크면 재고량 채우기 or 변경할 값이 더 크면 재고량 빼기
+        updateStockByProductId(order.getProductId(), (beforeQuantity - afterQuantity));
+
+        order.updateQuantity(request.getQuantity());
+
+        return new OrderResponse(order);
+    }
+
     // 재고량 체크
     public boolean checkProductInventory(Long productId, Long quantity) {
         ProductResponse product = productClient.findByProductId(productId);
         return quantity <= product.getInventory();
+    }
+
+    // 재고량 수정
+    public void updateStockByProductId(Long productId, Long quantity) {
+        productClient.updateStockByProductId(
+                productId,
+                new UpdateInventoryProductRequest(quantity)
+        );
     }
 }
