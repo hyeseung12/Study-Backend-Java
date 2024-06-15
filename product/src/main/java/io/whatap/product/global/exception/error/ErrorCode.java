@@ -1,6 +1,5 @@
 package io.whatap.product.global.exception.error;
 
-import io.whatap.product.global.annotation.SwaggerAPIError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

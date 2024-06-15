@@ -13,10 +13,10 @@ import java.util.Map;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class GlobalClientExceptionHandler {
-    private final ObjectMapper objectMapper;   //🔥🔥
+    private final ObjectMapper objectMapper;
 
     /**
-     * FeignClient에서 발생한 예외 그대로 전달🔥🔥
+     * FeignClient에서 발생한 예외 그대로 전달
      */
     @ExceptionHandler(FeignException.class)
     public ResponseEntity feignExceptionHandler(FeignException feignException) throws JsonProcessingException {
