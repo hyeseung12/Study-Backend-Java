@@ -1,5 +1,7 @@
 package io.whatap.product.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.whatap.product.dto.AddProductRequest;
 import io.whatap.product.dto.ProductResponse;
 import io.whatap.product.dto.UpdateInventoryProductRequest;
@@ -20,9 +22,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/product")
+@Tag(name = "product", description = "상품 API")
 public class ProductController {
     private final ProductService productService;
 
+    @Operation(summary = "상품 등록", description = "새 상품을 등록합니다.")
     @PostMapping
     public ResponseEntity<ProductResponse> addProduct(@RequestBody @Valid AddProductRequest request) {
         ProductResponse product = productService.save(request);
@@ -30,6 +34,7 @@ public class ProductController {
                 .body(product);
     }
 
+    @Operation(summary = "상품 리스트 조회", description = "페이지로 상품 리스트를 조회합니다.")
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getProductsByPagination(Pageable pageable) {
         List<ProductResponse> products = productService.findAll(pageable).getContent();
@@ -37,6 +42,7 @@ public class ProductController {
                 .body(products);
     }
 
+    @Operation(summary = "상품 조회", description = "등록한 상품의 정보를 조회합니다.")
     @SwaggerAPIError(ErrorCode.PRODUCT_NOT_FOUND)
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable Long id) {
@@ -45,6 +51,7 @@ public class ProductController {
                 .body(product);
     }
 
+    @Operation(summary = "상품 개수 조회", description = "등록한 상품의 수를 구합니다.")
     @GetMapping("/count")
     public ResponseEntity<Long> getProductCount() {
         Long count = productService.countAll();
@@ -52,6 +59,7 @@ public class ProductController {
                 .body(count);
     }
 
+    @Operation(summary = "상품 정보 수정", description = "등록한 상품의 정보를 수정합니다.")
     @SwaggerAPIError(ErrorCode.PRODUCT_NOT_FOUND)
     @PutMapping("/info/{id}")
     public ResponseEntity<ProductResponse> updateInfoProduct(
@@ -63,6 +71,7 @@ public class ProductController {
                 .body(product);
     }
 
+    @Operation(summary = "상품 재고 수량 수정", description = "등록한 상품의 재고 수량을 수정합니다.")
     @SwaggerAPIErrors({ErrorCode.PRODUCT_NOT_FOUND, ErrorCode.OUT_OF_STOCK})
     @PutMapping("/stock/{id}")
     public ResponseEntity<ProductResponse> updateStockProduct(
@@ -75,6 +84,7 @@ public class ProductController {
                 .body(product);
     }
 
+    @Operation(summary = "상품 삭제", description = "등록한 상품을 삭제합니다.")
     @SwaggerAPIError(ErrorCode.PRODUCT_NOT_FOUND)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
