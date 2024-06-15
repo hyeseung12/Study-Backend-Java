@@ -11,6 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class OrderService {
@@ -34,6 +37,14 @@ public class OrderService {
         );
 
         return new OrderResponse(orderRepository.save(request.toEntity()));
+    }
+
+    @Transactional(readOnly = true)
+    public List<OrderResponse> findAll() {
+        return orderRepository.findAll()
+                .stream()
+                .map(OrderResponse::new)
+                .collect(Collectors.toList());
     }
 
     // 재고량 체크
