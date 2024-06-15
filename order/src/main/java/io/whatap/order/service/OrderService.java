@@ -1,10 +1,12 @@
 package io.whatap.order.service;
 
+import io.whatap.order.domain.Order;
 import io.whatap.order.dto.order.AddOrderRequest;
 import io.whatap.order.dto.order.OrderResponse;
 import io.whatap.order.dto.product.ProductResponse;
 import io.whatap.order.dto.product.UpdateInventoryProductRequest;
 import io.whatap.order.global.client.ProductClient;
+import io.whatap.order.global.exception.OrderNotFoundException;
 import io.whatap.order.global.exception.OutOfStockException;
 import io.whatap.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,14 @@ public class OrderService {
                 .stream()
                 .map(OrderResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public OrderResponse findById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
+
+        return new OrderResponse(order);
     }
 
     // 재고량 체크

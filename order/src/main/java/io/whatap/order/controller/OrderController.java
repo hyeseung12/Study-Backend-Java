@@ -29,4 +29,10 @@ public class OrderController {
         List<OrderResponse> orders = orderService.findAll();
         return ResponseEntity.ok(orders);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponse> getOrder(@PathVariable("id") Long id) {
+        OrderResponse order = orderService.findById(id);
+        return ResponseEntity.ok(order);
+    }
 }
