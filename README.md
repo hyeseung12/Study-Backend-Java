@@ -2,6 +2,9 @@
 
 ---
 
+## 개발 기간
+2024-06-11 ~
+
 ## Eureka 서버 구축
 기초적인 CRUD product와 order service를 Instance 등록하였습니다.<br>
 프로젝트 실행 후, 아래의 링크에 접속해서 테스트할 수 있습니다.<br>
