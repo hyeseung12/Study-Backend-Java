@@ -3,6 +3,7 @@ package io.whatap.order.service;
 import io.whatap.order.domain.Order;
 import io.whatap.order.dto.order.AddOrderRequest;
 import io.whatap.order.dto.order.OrderResponse;
+import io.whatap.order.dto.order.UpdateAddressOrderRequest;
 import io.whatap.order.dto.product.ProductResponse;
 import io.whatap.order.dto.product.UpdateInventoryProductRequest;
 import io.whatap.order.global.client.ProductClient;
@@ -49,10 +50,20 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public OrderResponse findById(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
+
+        return new OrderResponse(order);
+    }
+
+    @Transactional
+    public OrderResponse updateAddress(Long id, UpdateAddressOrderRequest request) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> OrderNotFoundException.EXCEPTION);
+
+        order.updateAddress(request.getAddress());
 
         return new OrderResponse(order);
     }
