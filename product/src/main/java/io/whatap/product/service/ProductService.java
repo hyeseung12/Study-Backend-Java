@@ -73,6 +73,9 @@ public class ProductService {
         return new ProductResponse(product);
     }
 
+    /**
+     * 상품 재고량 수정
+     */
     @Transactional
     public ProductResponse updateInventory(Long id, UpdateInventoryProductRequest request) {
         Product product = productRepository.findById(id)

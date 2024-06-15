@@ -24,6 +24,9 @@ public class OrderService {
     private final ProductClient productClient;
     private final OrderRepository orderRepository;
 
+    /**
+     * 주문 등록
+     */
     @Transactional
     public OrderResponse save(AddOrderRequest request) {
         Long productId = request.getProductId();
@@ -40,6 +43,9 @@ public class OrderService {
         return new OrderResponse(orderRepository.save(request.toEntity()));
     }
 
+    /**
+     * 주문 리스트 조회
+     */
     @Transactional(readOnly = true)
     public List<OrderResponse> findAll() {
         return orderRepository.findAll()
@@ -48,6 +54,9 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 주문 하나 조회
+     */
     @Transactional(readOnly = true)
     public OrderResponse findById(Long id) {
         Order order = orderRepository.findById(id)
@@ -56,6 +65,9 @@ public class OrderService {
         return new OrderResponse(order);
     }
 
+    /**
+     * 주문 주소 수정
+     */
     @Transactional
     public OrderResponse updateAddress(Long id, UpdateAddressOrderRequest request) {
         Order order = orderRepository.findById(id)
@@ -66,6 +78,9 @@ public class OrderService {
         return new OrderResponse(order);
     }
 
+    /**
+     * 주문 수량 수정
+     */
     @Transactional
     public OrderResponse updateQuantity(Long id, UpdateQuantityOrderRequest request) {
         Order order = orderRepository.findById(id)
@@ -83,6 +98,9 @@ public class OrderService {
         return new OrderResponse(order);
     }
 
+    /**
+     * 주문 삭제
+     */
     @Transactional
     public void delete(Long id) {
         Order order = orderRepository.findById(id)
@@ -94,13 +112,17 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    // 재고량 체크
+    /**
+     * 재고량 체크
+     */
     public boolean checkProductInventory(Long productId, Long quantity) {
         ProductResponse product = productClient.findByProductId(productId);
         return quantity <= product.getInventory();
     }
 
-    // 재고량 수정
+    /**
+     * 재고량 수정
+     */
     public void updateStockByProductId(Long productId, Long quantity) {
         productClient.updateStockByProductId(
                 productId,
