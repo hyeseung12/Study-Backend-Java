@@ -36,7 +36,7 @@ public class OrderService {
         return new OrderResponse(orderRepository.save(request.toEntity()));
     }
 
-    // 재고량 체크 (반환값 : productId)
+    // 재고량 체크
     public boolean checkProductInventory(Long productId, Long quantity) {
         ProductResponse product = productClient.findByProductId(productId);
         return quantity <= product.getInventory();
