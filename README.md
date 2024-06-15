@@ -32,28 +32,57 @@ Spring Boot 2.7.15 (Maven) + Java17, MySQL 8.x, JPA
     폴더 구조 작성 cmd 명령어 : 'tree > level.txt' 
 
 ```
-├─src
-│  ├─main
-│  │  ├─java
-│  │  │  └─io
-│  │  │      └─whatap
-│  │  │          └─whatap
-│  │  │              ├─domain
-│  │  │              │  ├─order
-│  │  │              │  │  ├─dto
-│  │  │              │  │  ├─exception
-│  │  │              │  │  ├─repository
-│  │  │              │  │  └─service
-│  │  │              │  └─product
-│  │  │              │      ├─dto
-│  │  │              │      ├─exception
-│  │  │              │      ├─repository
-│  │  │              │      └─service
-│  │  │              └─global
-│  │  │                  ├─common
-│  │  │                  ├─config
-│  │  │                  └─exception
-│  │  │                      └─error
+├─api-gateway
+│  ├─src
+│  │  ├─main
+│  │  │  ├─java
+│  │  │  │  └─io
+│  │  │  │      └─whatap
+│  │  │  │          └─apigateway
+
+├─order
+│  ├─src
+│  │  ├─main
+│  │  │  ├─java
+│  │  │  │  └─io
+│  │  │  │      └─whatap
+│  │  │  │          └─order
+│  │  │  │              ├─controller
+│  │  │  │              ├─domain
+│  │  │  │              ├─dto
+│  │  │  │              │  ├─order
+│  │  │  │              │  └─product
+│  │  │  │              ├─global
+│  │  │  │              │  ├─annotation
+│  │  │  │              │  ├─client
+│  │  │  │              │  ├─common
+│  │  │  │              │  ├─config
+│  │  │  │              │  ├─exception
+│  │  │  │              │  │  └─error
+│  │  │  │              │  └─swagger
+│  │  │  │              ├─repository
+│  │  │  │              └─service
+
+├─product
+│  ├─src
+│  │  ├─main
+│  │  │  ├─java
+│  │  │  │  └─io
+│  │  │  │      └─whatap
+│  │  │  │          └─product
+│  │  │  │              ├─controller
+│  │  │  │              ├─domain
+│  │  │  │              ├─dto
+│  │  │  │              ├─global
+│  │  │  │              │  ├─annotation
+│  │  │  │              │  ├─common
+│  │  │  │              │  ├─config
+│  │  │  │              │  ├─exception
+│  │  │  │              │  │  └─error
+│  │  │  │              │  └─swagger
+│  │  │  │              ├─repository
+│  │  │  │              └─service
+
 ```
 <br>
 
