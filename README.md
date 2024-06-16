@@ -114,7 +114,7 @@ Environment variables는 다음과 같습니다.
 2. ComponentScan이란?
    
    @SpringBootApplication 어노테이션의 구조
-   ```
+   ```java
    @Target({ElementType.TYPE})
    @Retention(RetentionPolicy.RUNTIME)
    @Documented
