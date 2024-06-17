@@ -3,7 +3,7 @@
 ---
 
 ## 개발 기간
-2024-06-11 ~
+2024-06-11 ~ 2024-06-16
 
 ## Eureka 서버 구축
 기초적인 CRUD product와 order service를 Instance 등록하였습니다.<br>
