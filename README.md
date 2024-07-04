@@ -24,7 +24,7 @@ Product API : http://localhost:8082/swagger-ui/index.html <br>
 <br><br>
 
 ## 프로젝트 사용 기술
-Spring Boot 2.7.15 (Maven) + Java17, MySQL 8.x, JPA 
+Spring Boot 2.7.15 (Maven) + Java17, MySQL 8.x, JPA, Spring Cloud Eureka
 <br><br>
 
 ## 프로젝트 폴더 구조
